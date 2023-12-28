@@ -1,0 +1,102 @@
+Species,code,SPCD,Wood,max_SDI_usfs2023
+alder species,AD,350,H,
+subalpine fir,AF,19,S,
+alligator juniper,AJ,63,S,
+quaking aspen,AS,746,H,562
+Arizona white oak,AW,803,H,
+Arizona pinyon pine,AZ,143,S,
+balsam poplar,BA,741,H,
+bigcone Douglas-fir,BD,201,S,
+black spruce,BE,95,S,
+bigtooth maple,BI,322,H,
+bur oak,BK,823,H,
+blue oak,BL,807,H,214
+bigleaf maple,BM,312,H,629
+California black oak,BO,818,H,406
+Brewer spruce,BR,92,S,412
+blue spruce,BS,96,S,
+California buckeye,BU,333,H,440
+corkbark fir,CB,18,S,
+bitter cherry,CH,768,H,
+Chihuahuan pine,CI,118,S,
+California juniper,CJ,62,S,
+California laurel,CL,981,H,406
+California nutmeg,CN,251,H,576
+cottonwood species,CO,740,H,
+Coulter pine,CP,109,S,365
+black cottonwood,CW,747,H,452
+canyon live oak,CY,805,H,667
+Douglas-fir,DF,202,S,570
+Pacific dogwood,DG,492,H,406
+Emory oak,EM,810,H,
+Engelmann oak,EO,811,H,214
+eastern redcedar,ER,68,S,
+Engelmann spruce,ES,93,S,
+Fremont cottonwood,FC,748,H,
+Oregon ash,FL,542,H,441
+foxtail pine,FP,104,S,
+green ash,GA,544,H,
+Great Basin bristlecone pine,GB,142,S,
+giant chinquapin,GC,431,H,785
+grand fir,GF,17,S,
+Gambel oak,GO,814,H,
+California foothill pine,GP,127,S,214
+giant sequoia,GS,212,S,1052
+hawthorn species,HT,500,H,
+incense cedar,IC,81,S,576
+interior live oak,IO,839,H,667
+Jeffrey pine,JP,116,S,365
+knobcone pine,KP,103,S,679
+subalpine larch,LL,72,S,
+limber pine,LM,113,S,409
+California live oak,LO,801,H,667
+lodgepole pine,LP,108,S,679
+Pacific madrone,MA,361,H,515
+curl-leaf mountain mahogany,MC,475,H,
+mountain hemlock,MH,264,S,687
+Rocky Mountain maple,MM,321,H,
+Monterey pine,MP,124,S,365
+narrowleaf cottonwood,NC,749,H,
+noble fir,NF,22,S,
+"tree, deciduous species",OH,998,H,452
+oneseed juniper,OJ,69,S,
+"tree, evergreen species",OS,299,S,365
+paper birch,PB,375,H,
+Port Orford cedar,PC,41,S,592
+border pinyon,PD,134,S,
+common pinyon,PI,106,S,
+cherry and plum species,PL,760,H,
+singleleaf pinyon,PM,133,S,
+ponderosa pine,PP,122,S,365
+plains cottonwood,PW,745,H,
+Pacific yew,PY,231,H,576
+red alder,RA,351,H,441
+western red cedar,RC,242,S,762
+California red fir,RF,20,S,1000
+Rocky Mountain juniper,RM,66,S,
+redwood,RW,211,S,1052
+Pacific silver fir,SF,11,S,
+Shasta red fir,SH,21,S,1000
+silverleaf oak,SO,843,H,
+sugar pine,SP,117,S,561
+Sitka spruce,SS,98,S,
+Scouler’s willow,SU,928,H,
+southwestern white pine,SW,114,S,
+California sycamore,SY,730,H,499
+Tamarack,TA,71,S,
+tanoak,TO,631,H,785
+Utah juniper,UJ,65,S,
+valley oak,VO,821,H,440
+white alder,WA,352,H,
+whitebark pine,WB,101,S,621
+Washoe pine,WE,137,S,
+white fir,WF,15,S,800
+western hemlock,WH,263,S,682
+willow species,WI,920,H,447
+western juniper,WJ,64,S,272
+western larch,WL,73,S,
+walnut species,WN,600,H,283
+Oregon white oak,WO,815,H,440
+western white pine,WP,119,S,272
+white spruce,WS,94,S,
+Alaska cedar,YC,42,S,592
