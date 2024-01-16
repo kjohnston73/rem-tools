@@ -1,0 +1,12 @@
+**/.Rproj.user/**
+*.zip
+*.7z
+*.ini
+*.tif
+*.Rdata
+*.csv
+.Rhistory
+*.png
+*.Rproj
+.Rproj.user
+.git
