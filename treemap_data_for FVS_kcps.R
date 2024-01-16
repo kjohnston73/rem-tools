@@ -45,7 +45,7 @@ all_trees = read.csv(file = "TreeMap2016/Data/TreeMap2016_tree_table.csv", colCl
 # western variants spcd xwalk csv 
 # this currently includes only the spcd listed in the main FVS documentation
 # plan to update to include more western US species as time permits
-spcd_xwalk = read.csv(file = "fvs_species_codes/spcd_xwalk.csv")
+spcd_xwalk = read.csv(file = "rem-tools/spcd_xwalk.csv")
 
 ################################################################################
 # Reproject shapefile to match crs of TreeMap raster

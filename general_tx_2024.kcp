@@ -1,0 +1,171 @@
+* species to cut in ThinSDI
+* softwoods in project area
+SpGroup    SOFT 
+IC & 
+WF &
+PP &
+DF &
+LP &
+SP &
+SH &
+RF &
+JP &
+ES &
+GF &
+AF &
+WB &
+GP &
+BR &
+WJ &
+KP &
+WP &
+ER &
+RC &
+RM &
+WL &
+MH &
+PI &
+FP &
+WS &
+AZ &
+AJ &
+UJ &
+WH &
+PM &
+RW &
+LM &
+OS
+
+* species not to cut in ThinSDI
+* hardwoods in project area
+SpGroup    HARD 
+BO &
+CY &
+WO &
+DG &
+MA &
+BM &
+CL &
+TO &
+CH &
+LO &
+BL &
+AS &
+RA &
+VO &
+CN &
+GC &
+IO &
+PY &
+GA &
+CW &
+MC &
+BK &
+PB &
+GO &
+BU &
+WA &
+BI &
+MM
+
+***************
+
+** Thin hardwoods 0-4" DBH, leaving all wood on site
+* leave everything
+YardLoss        2023    Parms(1,1,1)
+* thin hardwoods 0-4" DBH
+ThinDBH         2023     Parms(0,4.0,1,HARD,0,0)
+
+***************
+
+** Thin softwoods from below to reach a target stand SDI
+
+******** 
+* NOTE that ThinSDI uses the value reported in SDI_ALL, which is
+* higher than the SDI value reported in FVS_Summary2;
+* could potenially fix this discrepancy with SDICALC
+*******
+
+IF                 
+Year Eq 2024
+THEN
+Compute            0
+* SPMCDBH
+*	11 = SDI
+*	species = softwoods (0 for all)
+*	value class = 0 (any)
+*	min DBH = 0
+*	max DBH = 24
+*	min HT = 0
+*	max HT = 999
+*	tree status = 0 (live trees)
+*	inventory points = 0 (all)
+
+* this is SDI for all trees- for reference only 
+* all SpMcDBH vars will be based on Reineke 1933
+SDI_ALL = SPMCDBH(11,0,0,0,999,0,999,0,0)
+* before-thin SDI (Reineke 1933)- for reference only
+BSDI_R = BSDI
+* before-thin SDI (Zeide 1983)- for reference only
+BSDI_Z = BSDI2
+* before-thin max SDI- for reference only
+BSDI_MAX = BSDIMAX
+* after-thin SDI (Reineke 1933)- for reference only
+ASDI_R = ASDI
+* after-thin SDI (Zeide 1983)- for reference only
+ASDI_Z = ASDI2
+* this is the range we want to cut (SW, 3-24")- for reference only
+SDI324SW = SPMCDBH(11,SOFT,0,3,24,0,999,0,0)
+
+* these are 3-24" hardwoods that are not cut
+SDI024HW = SPMCDBH(11,HARD,0,0,24,0,999,0,0)
+* these are > 24" all species that are not cut
+SDI_GT24 = SPMCDBH(11,0,0,24.1,999,0,999,0,0)
+* these are < 3" all species that are not cut
+* SDI_LT3= SPMCDBH(11,0,0,0,2.9,0,999,0,0)
+
+* fraction of each stand's max SDI to KEEP
+MAXSDIFR = 0.35
+END
+ENDIF
+
+* leave everything
+YardLoss        2024    Parms(1,1,1)
+
+* only cut 3-24" softwood trees but attempt to reach all-stand SDI of 200
+* ThinSDI
+*	overall residual SDI=200, 
+* 	cutting efficiency=1, 
+*	0-24 DBH
+*	1= thin from below within the diameter range 
+ThinSDI         2024     Parms(MAX(0.,(MAXSDIFR*BSDI_MAX)-SDI024HW-SDI_GT24),&
+1.,SOFT,0.,24.,1.)
+
+***************
+* target residual SDI (within DBH range) = 150
+* 100% cutting efficiency
+* Softwood species only
+* all DBH
+* thin from below
+* ThinSDI         2024    Parms(150, 1, SOFT, 0, 999, 1.)
+
+***************
+
+* Pile burn 80% of surface fuels
+* 1) 1 = pileburn 2 = jackpot burn, 2) percent of stand affected, 
+* 3) percent stand as footprint of piles, 4) percent of surface fuel piled, 
+* 5) percent tree mortality 
+
+FMIN
+PileBurn        2024    Parms(1,70,10,.80*100,0)
+END
+
+***************
+
+* Rx fire generic params
+FMIn
+* Args: 1hour, 10hour, 100hour, 3+, duff, live woody, live herb
+Moisture        2024    Parms(15., 15., 15., 15., 20., 150., 150.)
+* Args: Wind, Moisture, Temp, MortCode, PAB, Season
+SimFire         2024    Parms(13, 3, 85., 1, 95, 1)
+End
