@@ -1,0 +1,8 @@
+NoTriple
+NoAutoES
+
+* Args: Fcalc, FMset, SAV1, SAVH, SAVW, BDL, BDD, HC
+* always use SB FBFMs
+FMin
+FireCalc           0   Parms(1, 1, 2000., 1800., 1500., 0.1, 0.75, 8000.)
+End

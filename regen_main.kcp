@@ -1,0 +1,221 @@
+* DAS 01May2020
+* this is just a crude way to simulate some natural regen by checking that
+* at least one >=12" tree of that particular species exists before "planting" it
+
+* KMJ modified 26December2023 for FA018 PFT
+* queried output DB for 6 most common species > 12" DBH
+* top 6 species: PP WF DF IC SH BO
+
+
+IF                 0
+Year Eq 2016 OR Year Eq 2023 OR Year Eq 2028 OR Year Eq 2033 OR Year Eq 2038 OR &
+Year Eq 2043 OR Year Eq 2048 OR Year Eq 2053 OR Year Eq 2058
+THEN 
+COMPUTE            0
+* TPA at least 12" DBH remaining after thinning
+PPTPA12 = SPMCDBH(1, PP, 0, 12, 999, 0, 999, 3, 0) 
+WFTPA12 = SPMCDBH(1, WF, 0, 12, 999, 0, 999, 3, 0) 
+DFTPA12 = SPMCDBH(1, DF, 0, 12, 999, 0, 999, 3, 0) 
+ICTPA12 = SPMCDBH(1, IC, 0, 12, 999, 0, 999, 3, 0) 
+SHTPA12 = SPMCDBH(1, SH, 0, 12, 999, 0, 999, 3, 0) 
+BOTPA12 = SPMCDBH(1, BO, 0, 12, 999, 0, 999, 3, 0) 
+END
+ENDIF
+
+*********************************
+* ponderosa pine (SN = 6, Marin = 8)
+IF                 0
+PPTPA12 GE 1 AND YEAR GE 2022
+THEN
+** save # of seedlings for output
+COMPUTE
+PP_REGEN = RANN*((8-1)+1)*1.5
+END
+
+ESTAB
+*NoSprout
+Natural            0    Parms(PP,((RANN*(8-1)+1)*1.5),20,2,1,2)
+END
+ENDIF
+*********************************
+* white fir 
+IF                 0
+WFTPA12 GE 1 AND YEAR GE 2016
+THEN
+** save # of seedlings for output
+COMPUTE
+WF_REGEN = RANN*((60-4)+4)*1.5
+END
+
+ESTAB
+*NoSprout
+Natural            0    Parms(WF,((RANN*(60-4)+4)*1.5),70,2,1,0)
+END
+ENDIF
+*********************************
+* Douglas-fir 
+IF                 0
+DFTPA12 GE 1 AND YEAR GE 2016
+THEN
+** save # of seedlings for output
+COMPUTE
+DF_REGEN = RANN*((60-4)+4)*1.5
+END
+
+ESTAB
+*NoSprout
+Natural            0    Parms(DF,((RANN*(60-4)+4)*1.5),70,2,1,0)
+END
+ENDIF
+*********************************
+* Incense cedar
+IF                 0
+ICTPA12 GE 1 AND YEAR GE 2016
+THEN
+** save # of seedlings for output
+COMPUTE
+IC_REGEN = RANN*(56-2)+2)*1.5
+END
+
+ESTAB
+*NoSprout
+Natural            0    Parms(IC,((RANN*(56-2)+2)*1.5),70,2,1,0)
+END
+ENDIF
+*********************************
+* Shasta red fir 
+IF                 0
+SHTPA12 GE 1 AND YEAR GE 2016
+THEN
+** save # of seedlings for output
+COMPUTE
+SH_REGEN = RANN*((60-4)+4)*1.5
+END
+
+ESTAB
+*NoSprout
+Natural            0    Parms(SH,((RANN*(60-4)+4)*1.5),70,2,1,0)
+END
+ENDIF
+*********************************
+* California black oak
+IF                 0
+BOTPA12 GE 1 AND YEAR GE 2022
+THEN
+** save # of seedlings for output
+COMPUTE
+BO_REGEN = RANN*((56-1)+1)*1.5
+END
+
+ESTAB
+*Sprout             0    Parms(BO,,,,)
+Natural            0    Parms(BO,((RANN*(56-1)+1)*1.5),70,2,1,0)
+END
+ENDIF
+
+****************************************************************
+*********************************
+* redwood
+* IF                 0
+* RWTPA12 GE 1 AND YEAR GE 2016
+* THEN
+** save # of seedlings for output
+* COMPUTE
+* RW_REGEN = RANN*((56-2)+2)*1.5
+* END
+
+* ESTAB
+*Sprout
+* Natural            0    Parms(RW,((RANN*(56-2)+2)*1.5),70,2,1,0)
+* END
+* ENDIF
+*********************************
+* tanoak
+* IF                 0
+* TOTPA12 GE 1 AND YEAR GE 2016
+* THEN
+** save # of seedlings for output
+* COMPUTE
+* TO_REGEN = RANN*((56-2)+2)*1.5
+* END
+
+* ESTAB
+*Sprout
+* Natural            0    Parms(TO,((RANN*(56-2)+2)*1.5),70,2,1,0)
+* END
+* ENDIF
+*********************************
+* Canyon live oak
+* IF                 0
+* CYTPA12 GE 1 AND YEAR GE 2016
+* THEN
+** save # of seedlings for output
+* COMPUTE
+* CY_REGEN = RANN*(56-2)+2)*1.5
+* END
+
+* ESTAB
+*Sprout
+* Natural            0    Parms(CY,((RANN*(56-2)+2)*1.5),70,2,1,0)
+* END
+* ENDIF
+*********************************
+* Pacific madrone
+* IF                 0
+* MATPA12 GE 1 AND YEAR GE 2016
+* THEN
+** save # of seedlings for output
+* COMPUTE
+* MA_REGEN = RANN*(56-2)+2)*1.5
+* END
+
+* ESTAB
+*NoSprout
+* Natural            0    Parms(MA,((RANN*(56-2)+2)*1.5),70,2,1,0)
+* END
+* ENDIF
+*********************************
+* California laurel
+* IF                 0
+* CLTPA12 GE 1 AND YEAR GE 2016
+* THEN
+** save # of seedlings for output
+* COMPUTE
+* CL_REGEN = RANN*(56-2)+2)*1.5
+* END
+
+* ESTAB
+*NoSprout
+* Natural            0    Parms(CL,((RANN*(56-2)+2)*1.5),70,2,1,0)
+* END
+* ENDIF
+*********************************
+* Oregon white oak
+* IF                 0
+* WOTPA12 GE 1 AND YEAR GE 2022
+* THEN
+** save # of seedlings for output
+* COMPUTE
+* WO_REGEN = RANN*((32-2)+2)*1.5
+* END
+
+* ESTAB
+* Sprout             0    Parms(WO,,,,)
+* Natural            0    Parms(WO,((RANN*(56-2)+2)*1.5),70,2,1,0)
+* END
+* ENDIF
+*********************************
+* blue oak
+*IF                 0
+*BLTPA12 GE 1 AND YEAR GE 2022
+*THEN
+** save # of seedlings for output
+*COMPUTE
+*BL_REGEN = RANN*((32-2)+2)*1.5
+*END
+
+*ESTAB
+*Sprout             0    Parms(BL,,,,)
+*Natural            0    Parms(BL,((RANN*(32-2)+2)*1.5),40,2,1,1)
+*END
+*ENDIF
