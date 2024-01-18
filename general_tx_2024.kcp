@@ -66,7 +66,8 @@ GO &
 BU &
 WA &
 BI &
-MM
+MM &
+OH
 
 ***************
 
@@ -74,7 +75,7 @@ MM
 * leave everything
 YardLoss        2023    Parms(1,1,1)
 * thin hardwoods 0-4" DBH
-ThinDBH         2023     Parms(0,4.0,1,HARD,0,0)
+ThinDBH         2023     Parms(0,4.0,1,HARD,10,0)
 
 ***************
 
@@ -117,7 +118,7 @@ ASDI_Z = ASDI2
 * this is the range we want to cut (SW, 3-24")- for reference only
 SDI324SW = SPMCDBH(11,SOFT,0,3,24,0,999,0,0)
 
-* these are 3-24" hardwoods that are not cut
+* these are 0-24" hardwoods that are not cut
 SDI024HW = SPMCDBH(11,HARD,0,0,24,0,999,0,0)
 * these are > 24" all species that are not cut
 SDI_GT24 = SPMCDBH(11,0,0,24.1,999,0,999,0,0)
