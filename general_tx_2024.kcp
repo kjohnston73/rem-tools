@@ -143,14 +143,6 @@ ThinSDI         2024     Parms(MAX(0.,(MAXSDIFR*BSDI_MAX)-SDI024HW-SDI_GT24),&
 1.,SOFT,0.,24.,1.)
 
 ***************
-* target residual SDI (within DBH range) = 150
-* 100% cutting efficiency
-* Softwood species only
-* all DBH
-* thin from below
-* ThinSDI         2024    Parms(150, 1, SOFT, 0, 999, 1.)
-
-***************
 
 * Pile burn 80% of surface fuels
 * 1) 1 = pileburn 2 = jackpot burn, 2) percent of stand affected, 

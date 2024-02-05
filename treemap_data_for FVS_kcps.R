@@ -35,7 +35,7 @@ library(dplyr) # for data manipulation
 ################################################################################
 # Read in files used in this script
 # project shapefile
-aoi <- vect("Projects/PacificForestTrust/PFT_REM.shp")
+aoi <- vect("Projects/Sugarloaf_PC505/sugarloaf_FBburn_hazardhaul/sugarloaf_FBburn_hazardhaul.shp")
 # TreeMap2016 raster
 treemap <- rast("TreeMap2016_CA/TreeMap16_CA.tif")
 # TreeMap2016 RAT

@@ -3,10 +3,101 @@ library(ggplot2) # for figures
 library(dplyr) # for df manipulation
 library(dbplyr) # for db handling
 library(RSQLite) # for db connection
+library(tidyr)
+library(terra)
 
-setwd("C:/Users/kayla/Documents/SIG-GIS/REM/Projects/AlderSprings")
-
+################################################################################
+setwd("C:/Users/kayla/Documents/SIG-GIS/REM/Projects/Sugarloaf_PC505/V2")
+################################################################################
 fvsData <- dbConnect(SQLite(), 'FVSOut.db') # connects db to an R object
+################################################################################
+fvs_compute <- tbl(fvsData, 'FVS_Compute')
+fvs_compute_df <- as.data.frame(fvs_compute)
+################################################################################
+#fvs_compute_df <- fvs_compute_df %>% separate(StandID, c('stand', 'variant', 'num1', 'treated', 'num3')) #splits the FCAT ID into treemapID, variant + location code, past disturbance code, treated code, past wf code
+fvs_compute_df2 <- subset(fvs_compute_df, Year == 2024) # subsets to year 2024 (the year of treatment)
+fvs_treated <- subset(fvs_compute_df2, BEFORE_C > 0) # subsets to only the records with a pre-thin CC
+#fvs_treated <- unite(fvs_treated, "StandID", c('stand', 'variant', 'num1', 'treated', 'num3'), sep = "_") # unplits the FCAT ID
+################################################################################
+standid_table <- read.csv(file = "standids_table.csv") # read in standID xwalk
+colnames(standid_table) <- c('varloc', 'FCATID', 'StandID') # update column names for xwalk
+fvs_treated_ids <- merge(fvs_treated, standid_table, by = 'StandID') # merges db with xwalk
+################################################################################
+#fvs_treated_ids$perc_change <- (fvs_treated_ids$POST_CC - fvs_treated_ids$BEFORE_C)/fvs_treated_ids$POST_CC # computes percent change
+fvs_treated_ids$change_pts <- fvs_treated_ids$POST_CC - fvs_treated_ids$BEFORE_C # computes change in percentage points
+
+# fvs_treated_ids$tx <- ifelse(fvs_treated_ids$BEFORE_C < 40, 1, 0)
+# fvs_treated_ids$tx <- ifelse(fvs_treated_ids$BEFORE_C >= 40 & fvs_treated_ids$POST_CC < 40, 2, fvs_treated_ids$tx)
+# fvs_treated_ids$tx <- ifelse(fvs_treated_ids$POST_CC >= 40 & fvs_treated_ids$perc_change < -0.2, 3, fvs_treated_ids$tx)
+# fvs_treated_ids$tx <- ifelse(fvs_treated_ids$BEFORE_C >= 40 & fvs_treated_ids$POST_CC >= 40 & 
+#                                fvs_treated_ids$perc_change > -0.2, 4, fvs_treated_ids$tx)
+# table(fvs_treated_ids$tx)
+
+fvs_treated_ids$tx2 <- ifelse(fvs_treated_ids$BEFORE_C < 40, 1, 0)
+fvs_treated_ids$tx2 <- ifelse(fvs_treated_ids$BEFORE_C >= 40 & fvs_treated_ids$POST_CC < 40, 3, fvs_treated_ids$tx)
+fvs_treated_ids$tx2 <- ifelse(fvs_treated_ids$POST_CC >= 40 & fvs_treated_ids$change_pts > 20, 3, fvs_treated_ids$tx)
+fvs_treated_ids$tx2 <- ifelse(fvs_treated_ids$BEFORE_C >= 40 & fvs_treated_ids$POST_CC >= 40 & 
+                               fvs_treated_ids$change_pts <= 20, 2, fvs_treated_ids$tx)
+table(fvs_treated_ids$tx2)
+
+fvs_matrix <- fvs_treated_ids[,c(19,21)]
+fvs_matrix <- as.matrix(fvs_matrix)
+################################################################################
+fcat_rast <- rast("TM_dist_tx_wf_WS513.tif")
+fcat_rast_tx <- classify(fcat_rast, rcl = fvs_matrix, others=NA)
+fcat_line_tx <- as.lines(fcat_rast_tx)
+fcat_poly_tx <- as.polygons(fcat_rast_tx)
+plot(fcat_rast_tx)
+plot(fcat_poly_tx)
+################################################################################
+aoi <- vect("../sugarloaf_FBburn_hazardhaul/sugarloaf_FBburn_hazardhaul.shp")
+aoi <- project(aoi, fcat_poly_tx) 
+test <- split(aoi, fcat_line_tx)
+fcat_og_hybrid <- cover(test, fcat_poly_tx)
+plot(test)
+plot(fcat_og_hybrid)
+################################################################################
+#writeVector(test, filename = 'fcat_tx', filetype = "ESRI Shapefile")
+writeVector(fcat_og_hybrid, filename = 'fcat_og_hybrid', filetype = "ESRI Shapefile")
+################################################################################
+
+
+################################################################################
+fvs_treated_ids_df <- fvs_treated_ids %>% separate(StandID, c('stand', 'variant', 'num1', 'treated', 'num3'))
+treelist <- read.csv(file = "C:/Users/kayla/Documents/SIG-GIS/REM/TreeMap2016/Data/TreeMap2016_tree_table.csv", colClasses = c("character", "character"))
+fvs_treated_ids_df <- fvs_treated_ids_df %>% rename(tm_id = stand)
+unq_treelist <- treelist[treelist$tm_id %in% fvs_treated_ids_df$tm_id,]
+stand_tx <- fvs_treated_ids_df[,c(1,25)]
+unq_trees_tx <- merge(unq_treelist, stand_tx, by = "tm_id")
+spcd_xwalk = read.csv(file = "C:/Users/kayla/Documents/SIG-GIS/REM/rem-tools/spcd_xwalk.csv")
+unq_trees_tx <- merge(unq_trees_tx, spcd_xwalk, by = "SPCD") 
+################################################################################
+unq_trees_tx$dbh <- as.numeric(unq_trees_tx$DIA)
+unq_trees_tx$class <- ifelse(unq_trees_tx$dbh <= 10, 1, 0)
+unq_trees_tx$class <- ifelse(unq_trees_tx$dbh > 10 & unq_trees_tx$dbh <= 12 & unq_trees_tx$Wood == 'H', 2, unq_trees_tx$class)
+unq_trees_tx$live <- as.numeric(unq_trees_tx$STATUSCD)
+unq_trees_tx <- subset(unq_trees_tx, live == 1)
+unq_trees_tx$class <- ifelse(unq_trees_tx$dbh > 10 & unq_trees_tx$dbh <= 20 & unq_trees_tx$Wood == 'S', 3, unq_trees_tx$class)
+unq_trees_tx$class <- ifelse(unq_trees_tx$class == 0, 4, unq_trees_tx$class)
+################################################################################
+table(unq_trees_tx$class)
+unq_trees_tx <- subset(unq_trees_tx, tx == 2 | tx == 3)
+unq_trees_tx$TPA <- as.numeric(unq_trees_tx$TPA_UNADJ)
+tpa_csc_tx <- unq_trees_tx %>%
+  group_by(tm_id, class) %>%
+  summarise( 
+    count=sum(TPA))
+tpa_csc_tx <- merge(tpa_csc_tx, stand_tx, by = "tm_id")
+avgtpa_csc_tx <- tpa_csc_tx %>%
+  group_by(class, tx) %>%
+  summarise( 
+    avg=mean(count))
+
+
+
+
+
+
 
 # dbGetQuery(fvsData, 'SELECT * FROM FVS_TreeInit')
 
@@ -22,6 +113,8 @@ fvs_fuels_df <- as.data.frame(fvs_fuels)
 fvs_acre <- tbl(fvsData, 'stands_acres')
 fvs_acre_df <- as.data.frame(fvs_acre)
 fvs_acre_df$area_ac <- as.numeric(fvs_acre_df$area_ac)
+
+
 
 # merge cases to fuels and summary df
 fvs_sum_case <- merge(fvs_summary2_df, fvs_cases_df, by = c("CaseID", "StandID"))
@@ -141,5 +234,7 @@ test <- sum_fvs(fvs_sum_nowf, years_list)
 # 
 # test <- which(fvsData_BA$BA_perAcre <= 100) # grab stands with BA <= X
 # length(test) # return number of stands with BA <= X
+
+
 
 
