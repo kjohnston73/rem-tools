@@ -92,9 +92,10 @@ $response_port = 5100
 cd $runway_dir
 
 #########################################################################
-# Uncomment these commands as needed; they should not need to be edited #
-# Each step can be run on 1 of 2 host VM, uncomment only 1 $host_ip     #
-# variable for each step                                                #
+# Uncomment these commands as needed; they should not need to be edited. #
+# For projects please run steps only on currawong and chickadee. Grouse  #
+# and goose are for development only, only run something on these VMs if #
+# asked to or if you have confirmed they are in a functioning state.     #
 #########################################################################
 ##### 1. FCAT-fvs (FVS set-up) #####
 ## currawong host IP
