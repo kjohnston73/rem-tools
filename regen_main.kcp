@@ -8,8 +8,8 @@
 
 
 IF                 0
-Year Eq 2016 OR Year Eq 2023 OR Year Eq 2028 OR Year Eq 2033 OR Year Eq 2038 OR &
-Year Eq 2043 OR Year Eq 2048 OR Year Eq 2053 OR Year Eq 2058
+Year Eq 2016 OR Year Eq 2024 OR Year Eq 2029 OR Year Eq 2034 OR Year Eq 2039 OR &
+Year Eq 2044 OR Year Eq 2049 OR Year Eq 2054 OR Year Eq 2059
 THEN 
 COMPUTE            0
 * TPA at least 12" DBH remaining after thinning
@@ -24,6 +24,15 @@ CYTPA12 = SPMCDBH(1, CY, 0, 12, 999, 0, 999, 3, 0)
 TOTPA12 = SPMCDBH(1, TO, 0, 12, 999, 0, 999, 3, 0)
 CLTPA12 = SPMCDBH(1, CL, 0, 12, 999, 0, 999, 3, 0)  
 MATPA12 = SPMCDBH(1, MA, 0, 12, 999, 0, 999, 3, 0) 
+AWTPA12 = SPMCDBH(1, AW, 0, 12, 999, 0, 999, 3, 0)
+AJTPA12 = SPMCDBH(1, AJ, 0, 12, 999, 0, 999, 3, 0) 
+GOTPA12 = SPMCDBH(1, GO, 0, 12, 999, 0, 999, 3, 0)
+EMTPA12 = SPMCDBH(1, EM, 0, 12, 999, 0, 999, 3, 0)  
+PITPA12 = SPMCDBH(1, PI, 0, 12, 999, 0, 999, 3, 0) 
+ESTPA12 = SPMCDBH(1, ES, 0, 12, 999, 0, 999, 3, 0) 
+ASTPA12 = SPMCDBH(1, AS, 0, 12, 999, 0, 999, 3, 0) 
+AFTPA12 = SPMCDBH(1, AF, 0, 12, 999, 0, 999, 3, 0) 
+CBTPA12 = SPMCDBH(1, CB, 0, 12, 999, 0, 999, 3, 0) 
 END
 ENDIF
 
@@ -224,3 +233,139 @@ ENDIF
 *Natural            0    Parms(BL,((RANN*(32-2)+2)*1.5),40,2,1,1)
 *END
 *ENDIF
+*********************************
+* Arizona white oak
+IF                 0
+AWTPA12 GE 1 AND YEAR GE 2022
+THEN
+** save # of seedlings for output
+COMPUTE
+AW_REGEN = RANN*((18-1)+1)*1.5
+END
+
+ESTAB
+*Sprout             0    Parms(BO,,,,)
+Natural            0    Parms(AW,((RANN*(18-1)+1)*1.5),70,2,1,0)
+END
+ENDIF
+*********************************
+* Alligator Juniper
+IF                 0
+AJTPA12 GE 1 AND YEAR GE 2022
+THEN
+** save # of seedlings for output
+COMPUTE
+AJ_REGEN = RANN*((6-1)+1)*1.5
+END
+
+ESTAB
+*Sprout             0    Parms(BO,,,,)
+Natural            0    Parms(AJ,((RANN*(6-1)+1)*1.5),70,2,1,0)
+END
+ENDIF
+*********************************
+* Gambel oak
+IF                 0
+GOTPA12 GE 1 AND YEAR GE 2022
+THEN
+** save # of seedlings for output
+COMPUTE
+GO_REGEN = RANN*((12-1)+1)*1.5
+END
+
+ESTAB
+*Sprout             0    Parms(BO,,,,)
+Natural            0    Parms(GO,((RANN*(12-1)+1)*1.5),70,2,1,0)
+END
+ENDIF
+*********************************
+* Emory oak
+IF                 0
+EMTPA12 GE 1 AND YEAR GE 2022
+THEN
+** save # of seedlings for output
+COMPUTE
+EM_REGEN = RANN*((18-1)+1)*1.5
+END
+
+ESTAB
+*Sprout             0    Parms(BO,,,,)
+Natural            0    Parms(EM,((RANN*(18-1)+1)*1.5),70,2,1,0)
+END
+ENDIF
+*********************************
+* Common pinyon
+IF                 0
+PITPA12 GE 1 AND YEAR GE 2022
+THEN
+** save # of seedlings for output
+COMPUTE
+PI_REGEN = RANN*((6-1)+1)*1.5
+END
+
+ESTAB
+*Sprout             0    Parms(BO,,,,)
+Natural            0    Parms(PI,((RANN*(6-1)+1)*1.5),70,2,1,0)
+END
+ENDIF
+
+*********************************
+* Engelmann spruce
+IF                 0
+ESTPA12 GE 1 AND YEAR GE 2016
+THEN
+** save # of seedlings for output
+COMPUTE
+ES_REGEN = RANN*((32-4)+4)*1.5
+END
+
+ESTAB
+*NoSprout
+Natural            0    Parms(ES,((RANN*(32-4)+4)*1.5),70,2,1,0)
+END
+ENDIF
+*********************************
+* quaking aspen
+IF                 0
+ASTPA12 GE 1 AND YEAR GE 2016
+THEN
+** save # of seedlings for output
+COMPUTE
+AS_REGEN = RANN*((6-2)+2)*1.5
+END
+
+ESTAB
+*NoSprout
+Natural            0    Parms(AS,((RANN*(6-2)+2)*1.5),70,2,1,0)
+END
+ENDIF
+*********************************
+* subalpine fir
+IF                 0
+AFTPA12 GE 1 AND YEAR GE 2016
+THEN
+** save # of seedlings for output
+COMPUTE
+AF_REGEN = RANN*((12-4)+4)*1.5
+END
+
+ESTAB
+*NoSprout
+Natural            0    Parms(AF,((RANN*(12-4)+4)*1.5),70,2,1,0)
+END
+ENDIF
+*********************************
+* corkbark fir
+IF                 0
+CBTPA12 GE 1 AND YEAR GE 2022
+THEN
+** save # of seedlings for output
+COMPUTE
+CB_REGEN = RANN*((12-1)+1)*1.5
+END
+
+ESTAB
+*Sprout             0    Parms(BO,,,,)
+Natural            0    Parms(CB,((RANN*(12-1)+1)*1.5),70,2,1,0)
+END
+ENDIF
