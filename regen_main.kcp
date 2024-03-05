@@ -33,6 +33,7 @@ ESTPA12 = SPMCDBH(1, ES, 0, 12, 999, 0, 999, 3, 0)
 ASTPA12 = SPMCDBH(1, AS, 0, 12, 999, 0, 999, 3, 0) 
 AFTPA12 = SPMCDBH(1, AF, 0, 12, 999, 0, 999, 3, 0) 
 CBTPA12 = SPMCDBH(1, CB, 0, 12, 999, 0, 999, 3, 0) 
+LOTPA12 = SPMCDBH(1, LO, 0, 12, 999, 0, 999, 3, 0) 
 END
 ENDIF
 
@@ -369,3 +370,19 @@ ESTAB
 Natural            0    Parms(CB,((RANN*(12-1)+1)*1.5),70,2,1,0)
 END
 ENDIF
+*********************************
+* California live oak
+IF                 0
+LOTPA12 GE 1 AND YEAR GE 2016
+THEN
+** save # of seedlings for output
+COMPUTE
+LO_REGEN = RANN*(56-2)+2)*1.5
+END
+
+ESTAB
+*Sprout
+Natural            0    Parms(LO,((RANN*(56-2)+2)*1.5),70,2,1,0)
+END
+ENDIF
+*********************************
