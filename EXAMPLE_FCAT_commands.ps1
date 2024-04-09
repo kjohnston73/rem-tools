@@ -43,6 +43,15 @@ $exec_wildfires = 1
 $exec_project = 1
 $exec_baseline = 1
 
+# These are variables for untested additional arguments that can be added to the rfvs step after exec-baseline
+# choices for autoOut are: "Treelists", "CanProfile", "SnagDet", "CalibStats", "Climate", "Econ", "RD_Sum", "RD_Beetle", "InvStats", and "Regen"
+# If multiple autoOut options are desired, separate them with an underscore like this "Treelists_CanProfile"
+$auto_out = "Treelists_CanProfile"
+# choices for cycleat are any year you want outputs for that is not already being generated
+# for a single year enter it as a string (in quotes), for example "2026"
+# if multiple years are desired, sparate them with an underscore like this "2026_2041" 
+$cycle_at = "2026_2041"
+
 # This is the start year (typically the current year) for your project
 $start_year = 2024
 
@@ -117,7 +126,7 @@ cd $runway_dir
 #$host_ip = "10.1.30.120"
 #$port = 1338
 ## command with logging
-#$rfvs_cmd = -join(' {"""scriptArgs""": {"""project-code""": """', $project_code, '""", """start-year""": ', $start_year, ', """end-year""": ', $fvs_end_year, ', """exec-wildfires""": ', $exec_wildfires, ', """exec-project""": ', $exec_project, ', """exec-baseline""": ', $exec_baseline, '}, """jobId""": 1, """responseHost""": """', $response_ip, '""", """responsePort""": ', $response_port, '}')
+#$rfvs_cmd = -join(' {"""scriptArgs""": {"""project-code""": """', $project_code, '""", """start-year""": ', $start_year, ', """end-year""": ', $fvs_end_year, ', """exec-wildfires""": ', $exec_wildfires, ', """exec-project""": ', $exec_project, ', """exec-baseline""": ', $exec_baseline, ', """autoOut""": ', $auto_out, ', """cycleat""": ', $cycle_at, '}, """jobId""": 1, """responseHost""": """', $response_ip, '""", """responsePort""": ', $response_port, '}')
 ## command without logging
 #$rfvs_cmd = -join(' {"""scriptArgs""": {"""project-code""": """', $project_code, '""", """start-year""": ', $start_year, ', """end-year""": ', $fvs_end_year, ', """exec-wildfires""": ', $exec_wildfires, ', """exec-project""": ', $exec_project, ', """exec-baseline""": ', $exec_baseline, '}, """jobId""": 1}')
 #echo $rfvs_cmd

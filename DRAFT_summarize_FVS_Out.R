@@ -5,7 +5,7 @@ library(tidyr)
 
 ################################################################################
 # Set the working directory
-setwd("C:/Users/kayla/Documents/SIG-GIS/REM/Projects/Sugarloaf_PC505/V12")
+setwd("C:/Users/kayla/Documents/SIG-GIS/REM/Projects/BandedPeak/v2_out")
 ################################################################################
 # Connect to FVSOut.db and read/convert the compute and summary2 table as df
 fvsData <- dbConnect(SQLite(), 'FVSOut.db') # connects db to an R object
@@ -15,8 +15,8 @@ fvs_sum2 <- tbl(fvsData, 'FVS_Summary2') # converts to R table object
 fvs_sum2_df <- as.data.frame(fvs_sum2) # converts to R df object
 ################################################################################
 # # Connect to FVSOut.db and read/convert the compute and CASES table as df
-fvsCases <- dbConnect(SQLite(), 'FVSOut.db') # connects db to an R object
-fvs_cases <- tbl(fvsCases, 'FVS_Cases') # converts to R table object
+# fvsCases <- dbConnect(SQLite(), 'FVSOut.db') # connects db to an R object
+fvs_cases <- tbl(fvsData, 'FVS_Cases') # converts to R table object
 fvs_cases_df <- as.data.frame(fvs_cases) # converts to R df object
 fvs_cases_df1 <- fvs_cases_df[,c(1,4,5)]
 # table(fvs_cases_df1$MgmtID)
@@ -25,7 +25,7 @@ fvs_cases_df1 <- fvs_cases_df[,c(1,4,5)]
 # desired years
 stand_ac <- read.csv('stands_acres.csv')
 fvs_comp_df <- merge(fvs_compute_df, stand_ac, by = 'StandID')
-fvs_comp_df1 <- subset(fvs_compute_df, Year == 2024 | Year == 2034)
+fvs_comp_df1 <- subset(fvs_compute_df, Year == 2024)# | Year == 2034)
 ################################################################################
 # Connect to the FVS_Data.db and read/convert the StandInit table as df
 fvsInit <- dbConnect(SQLite(), 'FVS_Data.db') # connects db to an R object
@@ -49,7 +49,7 @@ fvs_comp_df4 <- merge(fvs_comp_df3, fvs_cases_df1, by = 'CaseID')
 fvs_comp_df5 <- subset(fvs_comp_df4, MgmtID == 'NOWF')
 ################################################################################
 # same steps but on fvs_summary
-fvs_sum2_df1 <- subset(fvs_sum2_df, Year == 2024 | Year == 2034)
+fvs_sum2_df1 <- subset(fvs_sum2_df, Year == 2024)# | Year == 2034)
 fvs_sum2_df2 <- fvs_sum2_df1[,c(1,2,3,4,6,8,9,12)]
 fvs_sum2_df22 <- merge(fvs_sum2_df2, standInit_df4, by = "StandID")
 fvs_sum2_df22$project <- ifelse(fvs_sum2_df22$GROUPS == 'All_Stands Baseline', 'no', 'yes')
@@ -57,66 +57,87 @@ fvs_sum2_df32 <- subset(fvs_sum2_df22, project == 'yes')
 
 fvs_sum2_df3 <- merge(fvs_sum2_df32, fvs_cases_df1, by = 'CaseID')
 fvs_sum2_df4 <- subset(fvs_sum2_df3, MgmtID == 'NOWF')
-fvs_sum2_df5 <- subset(fvs_sum2_df4, RmvCode == '0' | RmvCode == '2')
+fvs_sum2_df5 <- subset(fvs_sum2_df4, RmvCode == '1' | RmvCode == '2')
 ################################################################################
 # Compute averages
 fvs_sum2_df5$tx_type <- ifelse(fvs_sum2_df5$GROUPS == 'All_Stands Baseline Project PC505_snag_burn', 'snagsburn', 'fbburn')
+
 burn_tpa <- fvs_sum2_df5 %>%
-  group_by(Year, RunTitle, tx_type) %>%
+  group_by(RmvCode) %>%
   summarise( 
     TPA=mean(Tpa))
 
-burn_tpa<- unite(burn_tpa, "tx_scen_year", c('tx_type', 'RunTitle', 'Year'), sep = "_")
+# burn_tpa<- unite(burn_tpa, "tx_scen_year", c('tx_type', 'RunTitle', 'Year'), sep = "_")
 
 burn_ba <- fvs_sum2_df5 %>%
-  group_by(Year, RunTitle, tx_type) %>%
+  group_by(RmvCode) %>%
   summarise( 
     BA=mean(BA))
 
-burn_ba<- unite(burn_ba, "tx_scen_year", c('tx_type', 'RunTitle', 'Year'), sep = "_")
+# burn_ba<- unite(burn_ba, "tx_scen_year", c('tx_type', 'RunTitle', 'Year'), sep = "_")
 
 burn_sdi <- fvs_sum2_df5 %>%
-  group_by(Year, RunTitle, tx_type) %>%
+  group_by(RmvCode) %>%
   summarise( 
     SDI=mean(SDI))
 
-burn_sdi<- unite(burn_sdi, "tx_scen_year", c('tx_type', 'RunTitle', 'Year'), sep = "_")
+# burn_sdi<- unite(burn_sdi, "tx_scen_year", c('tx_type', 'RunTitle', 'Year'), sep = "_")
 
 burn_qmd <- fvs_sum2_df5 %>%
-  group_by(Year, RunTitle, tx_type) %>%
+  group_by(RmvCode) %>%
   summarise( 
     QMD=mean(QMD))
 
-burn_qmd<- unite(burn_qmd, "tx_scen_year", c('tx_type', 'RunTitle', 'Year'), sep = "_")
+# burn_qmd<- unite(burn_qmd, "tx_scen_year", c('tx_type', 'RunTitle', 'Year'), sep = "_")
 
-fvs_comp_df5$tx_type <- ifelse(fvs_comp_df5$GROUPS == 'All_Stands Baseline Project PC505_snag_burn', 'snagsburn', 'fbburn')
+# fvs_comp_df5$tx_type <- ifelse(fvs_comp_df5$GROUPS == 'All_Stands Baseline Project PC505_snag_burn', 'snagsburn', 'fbburn')
+
+fvs_sum2_df6 <- fvs_sum2_df5[,c(1,4)]
+
+fvs_comp_df5 <- merge(fvs_comp_df5, fvs_sum2_df6, by = "CaseID")
+
 burn_fl <- fvs_comp_df5 %>%
-  group_by(Year, RunTitle, tx_type) %>%
+  group_by(RmvCode) %>%
   summarise( 
     FL=mean(SEV_FL))
 
-burn_fl<- unite(burn_fl, "tx_scen_year", c('tx_type', 'RunTitle', 'Year'), sep = "_")
+# burn_fl<- unite(burn_fl, "tx_scen_year", c('tx_type', 'RunTitle', 'Year'), sep = "_")
 
 burn_cc <- fvs_comp_df5 %>%
-  group_by(Year, RunTitle, tx_type) %>%
+  group_by(RmvCode) %>%
   summarise( 
     CC=mean(CC))
 
-burn_cc<- unite(burn_cc, "tx_scen_year", c('tx_type', 'RunTitle', 'Year'), sep = "_")
+# burn_cc<- unite(burn_cc, "tx_scen_year", c('tx_type', 'RunTitle', 'Year'), sep = "_")
 
 burn_cbh <- fvs_comp_df5 %>%
-  group_by(Year, RunTitle, tx_type) %>%
+  group_by(RmvCode) %>%
   summarise( 
     CBH=mean(CBH))
 
-burn_cbh<- unite(burn_cbh, "tx_scen_year", c('tx_type', 'RunTitle', 'Year'), sep = "_")
+# burn_cbh<- unite(burn_cbh, "tx_scen_year", c('tx_type', 'RunTitle', 'Year'), sep = "_")
 
 burn_cbd <- fvs_comp_df5 %>%
-  group_by(Year, RunTitle, tx_type) %>%
+  group_by(RmvCode) %>%
   summarise( 
     CBD=mean(CBD))
 
-burn_cbd<- unite(burn_cbd, "tx_scen_year", c('tx_type', 'RunTitle', 'Year'), sep = "_")
+# burn_cbd<- unite(burn_cbd, "tx_scen_year", c('tx_type', 'RunTitle', 'Year'), sep = "_")
+
+burn_sdiMax <- fvs_comp_df5 %>%
+  group_by(RmvCode) %>%
+  summarise( 
+    max_sdi=mean(BSDI_MAX))
+
+
+output2 <- merge(burn_ba, burn_cbd, by = "RmvCode")
+output2 <- merge(output2, burn_cbh, by = "RmvCode")
+output2 <- merge(output2, burn_cc, by = "RmvCode")
+output2 <- merge(output2, burn_fl, by = "RmvCode")
+output2 <- merge(output2, burn_qmd, by = "RmvCode")
+output2 <- merge(output2, burn_sdi, by = "RmvCode")
+output2 <- merge(output2, burn_tpa, by = "RmvCode")
+output2 <- merge(output2, burn_sdiMax, by = "RmvCode")
 
 
 ################################################################################

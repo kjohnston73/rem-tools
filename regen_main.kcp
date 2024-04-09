@@ -34,6 +34,7 @@ ASTPA12 = SPMCDBH(1, AS, 0, 12, 999, 0, 999, 3, 0)
 AFTPA12 = SPMCDBH(1, AF, 0, 12, 999, 0, 999, 3, 0) 
 CBTPA12 = SPMCDBH(1, CB, 0, 12, 999, 0, 999, 3, 0) 
 LOTPA12 = SPMCDBH(1, LO, 0, 12, 999, 0, 999, 3, 0) 
+SPTPA12 = SPMCDBH(1, SP, 0, 12, 999, 0, 999, 3, 0) 
 END
 ENDIF
 
@@ -89,7 +90,7 @@ ICTPA12 GE 1 AND YEAR GE 2016
 THEN
 ** save # of seedlings for output
 COMPUTE
-IC_REGEN = RANN*(56-2)+2)*1.5
+IC_REGEN = RANN*((56-2)+2)*1.5
 END
 
 ESTAB
@@ -166,7 +167,7 @@ CYTPA12 GE 1 AND YEAR GE 2016
 THEN
 ** save # of seedlings for output
 COMPUTE
-CY_REGEN = RANN*(56-2)+2)*1.5
+CY_REGEN = RANN*((56-2)+2)*1.5
 END
 
 ESTAB
@@ -181,7 +182,7 @@ MATPA12 GE 1 AND YEAR GE 2016
 THEN
 ** save # of seedlings for output
 COMPUTE
-MA_REGEN = RANN*(56-2)+2)*1.5
+MA_REGEN = RANN*((56-2)+2)*1.5
 END
 
 ESTAB
@@ -196,7 +197,7 @@ CLTPA12 GE 1 AND YEAR GE 2016
 THEN
 ** save # of seedlings for output
 COMPUTE
-CL_REGEN = RANN*(56-2)+2)*1.5
+CL_REGEN = RANN*((56-2)+2)*1.5
 END
 
 ESTAB
@@ -377,12 +378,27 @@ LOTPA12 GE 1 AND YEAR GE 2016
 THEN
 ** save # of seedlings for output
 COMPUTE
-LO_REGEN = RANN*(56-2)+2)*1.5
+LO_REGEN = RANN*((56-2)+2)*1.5
 END
 
 ESTAB
 *Sprout
 Natural            0    Parms(LO,((RANN*(56-2)+2)*1.5),70,2,1,0)
+END
+ENDIF
+*********************************
+* Sugar pine
+IF                 0
+SPTPA12 GE 1 AND YEAR GE 2016
+THEN
+** save # of seedlings for output
+COMPUTE
+SP_REGEN = RANN*((6-2)+2)*1.5
+END
+
+ESTAB
+*Sprout
+Natural            0    Parms(SP,((RANN*(6-2)+2)*1.5),70,2,1,0)
 END
 ENDIF
 *********************************
