@@ -139,7 +139,6 @@ output2 <- merge(output2, burn_sdi, by = "RmvCode")
 output2 <- merge(output2, burn_tpa, by = "RmvCode")
 output2 <- merge(output2, burn_sdiMax, by = "RmvCode")
 
-
 ################################################################################
 # Set the working directory
 setwd("C:/Users/kayla/Documents/SIG-GIS/REM/Projects/Sugarloaf_PC505/V13")

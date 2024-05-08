@@ -35,6 +35,9 @@ AFTPA12 = SPMCDBH(1, AF, 0, 12, 999, 0, 999, 3, 0)
 CBTPA12 = SPMCDBH(1, CB, 0, 12, 999, 0, 999, 3, 0) 
 LOTPA12 = SPMCDBH(1, LO, 0, 12, 999, 0, 999, 3, 0) 
 SPTPA12 = SPMCDBH(1, SP, 0, 12, 999, 0, 999, 3, 0) 
+GFTPA12 = SPMCDBH(1, GF, 0, 12, 999, 0, 999, 3, 0) 
+WLTPA12 = SPMCDBH(1, WL, 0, 12, 999, 0, 999, 3, 0) 
+WJTPA12 = SPMCDBH(1, WJ, 0, 12, 999, 0, 999, 3, 0) 
 END
 ENDIF
 
@@ -399,6 +402,51 @@ END
 ESTAB
 *Sprout
 Natural            0    Parms(SP,((RANN*(6-2)+2)*1.5),70,2,1,0)
+END
+ENDIF
+*********************************
+* grand fir 
+IF                 0
+GFTPA12 GE 1 AND YEAR GE 2016
+THEN
+** save # of seedlings for output
+COMPUTE
+GF_REGEN = RANN*((60-4)+4)*1.5
+END
+
+ESTAB
+*NoSprout
+Natural            0    Parms(GF,((RANN*(60-4)+4)*1.5),70,2,1,0)
+END
+ENDIF
+*********************************
+* western larch
+IF                 0
+WLTPA12 GE 1 AND YEAR GE 2016
+THEN
+** save # of seedlings for output
+COMPUTE
+WL_REGEN = RANN*((6-2)+2)*1.5
+END
+
+ESTAB
+*Sprout
+Natural            0    Parms(WL,((RANN*(6-2)+2)*1.5),70,2,1,0)
+END
+ENDIF
+*********************************
+* WESTERN Juniper
+IF                 0
+WJTPA12 GE 1 AND YEAR GE 2022
+THEN
+** save # of seedlings for output
+COMPUTE
+WJ_REGEN = RANN*((6-1)+1)*1.5
+END
+
+ESTAB
+*Sprout             0    Parms(BO,,,,)
+Natural            0    Parms(WJ,((RANN*(6-1)+1)*1.5),70,2,1,0)
 END
 ENDIF
 *********************************
