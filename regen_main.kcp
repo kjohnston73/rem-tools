@@ -14,6 +14,7 @@ THEN
 COMPUTE            0
 * TPA at least 12" DBH remaining after thinning
 PPTPA12 = SPMCDBH(1, PP, 0, 12, 999, 0, 999, 3, 0) 
+LPTPA12 = SPMCDBH(1, LP, 0, 12, 999, 0, 999, 3, 0)
 WFTPA12 = SPMCDBH(1, WF, 0, 12, 999, 0, 999, 3, 0) 
 DFTPA12 = SPMCDBH(1, DF, 0, 12, 999, 0, 999, 3, 0) 
 ICTPA12 = SPMCDBH(1, IC, 0, 12, 999, 0, 999, 3, 0) 
@@ -54,6 +55,21 @@ END
 ESTAB
 *NoSprout
 Natural            0    Parms(PP,((RANN*(8-1)+1)*1.5),20,2,1,2)
+END
+ENDIF
+*********************************
+* lodgepole pine
+IF                 0
+LPTPA12 GE 1 AND YEAR GE 2022
+THEN
+** save # of seedlings for output
+COMPUTE
+LP_REGEN = RANN*((100-1)+1)*1.5
+END
+
+ESTAB
+*NoSprout
+Natural            0    Parms(LP,((RANN*(100-1)+1)*1.5),50,2,1,2)
 END
 ENDIF
 *********************************

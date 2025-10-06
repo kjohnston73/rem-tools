@@ -1,0 +1,641 @@
+{
+    "aboveground_total_live": {
+        "query": "FVS_Carbon.Aboveground_Total_Live AS aboveground_total_live",
+        "table":"FVS_Carbon",
+        "dtype": "Float32",
+        "description": "Aboveground Live C (tons/ac), component of Total Stand C"
+    },
+    "aboveground_merch_live": {
+        "query": "FVS_Carbon.Aboveground_Merch_Live AS aboveground_merch_live",
+        "table":"FVS_Carbon",
+        "dtype": "Float32",
+        "description": "Aboveground Merchantable C (tons/ac), component of Total Stand C"
+    },
+    "belowground_live": {
+        "query": "FVS_Carbon.Belowground_Live AS belowground_live",
+        "table":"FVS_Carbon",
+        "dtype": "Float32",
+        "description": "Belowground Live C (tons/ac), component of Total Stand C"
+    },
+    "belowground_dead": {
+        "query": "FVS_Carbon.Belowground_Dead AS belowground_dead",
+        "table":"FVS_Carbon",
+        "dtype": "Float32",
+        "description": "Belowground Dead C (tons/ac), component of Total Stand C"
+    },
+    "standing_dead": {
+        "query": "FVS_Carbon.Standing_Dead AS standing_dead",
+        "table":"FVS_Carbon",
+        "dtype": "Float32",
+        "description": "Standing Dead C (tons/ac), component of Total Stand C"
+    },
+    "forest_down_dead_wood": {
+        "query": "FVS_Carbon.Forest_Down_Dead_Wood AS forest_down_dead_wood",
+        "table":"FVS_Carbon",
+        "dtype": "Float32",
+        "description": "Woody Debris C (tons/ac), component of Total Stand C"
+    },
+    "forest_floor": {
+        "query": "FVS_Carbon.Forest_Floor AS forest_floor",
+        "table":"FVS_Carbon",
+        "dtype": "Float32",
+        "description": "Forest Floor C (tons/ac), component of Total Stand C"
+    },
+    "forest_shrub_herb": {
+        "query": "FVS_Carbon.Forest_Shrub_Herb AS forest_shrub_herb",
+        "table":"FVS_Carbon",
+        "dtype": "Float32",
+        "description": "Shrub and Herb C (tons/ac), component of Total Stand C"
+    },
+    "total_stand_carbon": {
+        "query": "FVS_Carbon.Total_Stand_Carbon AS total_stand_carbon",
+        "table": "FVS_Carbon",
+        "dtype": "Float32",
+        "description": "Total Stand C (tons/ac). Sum of Total aboveground live, merchantable aboveground live, belowground live, belowground dead, standing dead, forest down dead wood, forest floor, and herbs and shrubs."
+    },
+
+
+    "tpa": {
+        "query": "FVS_Summary2.TPA AS tpa",
+        "table": "FVS_Summary2",
+        "dtype": "Float32",
+        "description": "Trees per acre"
+    },
+    "ba": {
+        "query": "FVS_Summary2.BA AS ba",
+        "table": "FVS_Summary2",
+        "dtype": "Float32",
+        "description": "Basal Area (sf/ac)"
+    },
+    "sdi": {
+        "query": "FVS_Summary2.SDI AS sdi",
+        "table": "FVS_Summary2",
+        "dtype": "Int16",
+        "description": "Stand Density Index (unitless)"
+    },
+    "topht": {
+        "query": "FVS_Summary2.TopHt AS topht",
+        "table": "FVS_Summary2",
+        "dtype": "Int16",
+        "description": "Average dominant height (ft)"
+    },
+    "qmd": {
+        "query": "FVS_Summary2.QMD AS qmd",
+        "table": "FVS_Summary2",
+        "dtype": "Float32",
+        "description": "Quadratic Mean Diameter (in)"
+    },
+    "tcuft": {
+        "query": "FVS_Summary2.TcuFt AS tcuft",
+        "table": "FVS_Summary2",
+        "dtype": "Float32",
+        "description": "Total cubic foot volume (ft^3)"
+    },
+    "mcuft": {
+        "query": "FVS_Summary2.MCuFt mcuft",
+        "table": "FVS_Summary2",
+        "dtype": "Float32",
+        "description": "Merchantable cubic foot volume (ft^3)"
+    },
+    "bdft": {
+        "query": "FVS_Summary2.BdFt bdft",
+        "table": "FVS_Summary2",
+        "dtype": "Float32",
+        "description": "Merchantable board foot volume (bf)"
+    },
+    "rtpa": {
+        "query": "(SELECT IFNULL(RTpa, 0) FROM FVS_Summary2 AS inner_FVS_Summary2 INNER JOIN FVS_Cases as inner_FVS_Cases USING (CaseID) WHERE inner_FVS_Summary2.Year = YEAR_PLACEHOLDER AND inner_FVS_Cases.RunTitle = FVS_Cases.RunTitle AND inner_FVS_Cases.CaseID = FVS_Cases.CaseID AND inner_FVS_Cases.MgmtID LIKE 'NOWF' AND inner_FVS_Summary2.RmvCode = 1 AND FVS_Summary2.RmvCode = 2) rtpa",
+        "table": "FVS_Summary2",
+        "dtype": "Float32",
+        "description": "Removed Trees per Acre"
+    },
+    "rtcuft": {
+        "query": "(SELECT IFNULL(RTCuFt, 0) FROM FVS_Summary2 AS inner_FVS_Summary2 INNER JOIN FVS_Cases as inner_FVS_Cases USING (CaseID) WHERE inner_FVS_Summary2.Year = YEAR_PLACEHOLDER AND inner_FVS_Cases.RunTitle = FVS_Cases.RunTitle AND inner_FVS_Cases.CaseID = FVS_Cases.CaseID AND inner_FVS_Cases.MgmtID LIKE 'NOWF' AND inner_FVS_Summary2.RmvCode = 1 AND FVS_Summary2.RmvCode = 2) rtcuft",
+        "table": "FVS_Summary2",
+        "dtype": "Float32",
+        "description": "Removed total cubic foot volume (ft^3)"
+    },
+    "rmcuft": {
+        "query": "(SELECT IFNULL(RMCuFt, 0) FROM FVS_Summary2 AS inner_FVS_Summary2 INNER JOIN FVS_Cases as inner_FVS_Cases USING (CaseID) WHERE inner_FVS_Summary2.Year = YEAR_PLACEHOLDER AND inner_FVS_Cases.RunTitle = FVS_Cases.RunTitle AND inner_FVS_Cases.CaseID = FVS_Cases.CaseID AND inner_FVS_Cases.MgmtID LIKE 'NOWF' AND inner_FVS_Summary2.RmvCode = 1 AND FVS_Summary2.RmvCode = 2) rmcuft",
+        "table": "FVS_Summary2",
+        "dtype": "Float32",
+        "description": "Removed merchantable cubic foot volume (ft^3)"
+    },
+    "rbdft": {
+        "query": "(SELECT IFNULL(RBdFt, 0) FROM FVS_Summary2 AS inner_FVS_Summary2 INNER JOIN FVS_Cases as inner_FVS_Cases USING (CaseID) WHERE inner_FVS_Summary2.Year = YEAR_PLACEHOLDER AND inner_FVS_Cases.RunTitle = FVS_Cases.RunTitle AND inner_FVS_Cases.CaseID = FVS_Cases.CaseID AND inner_FVS_Cases.MgmtID LIKE 'NOWF' AND inner_FVS_Summary2.RmvCode = 1 AND FVS_Summary2.RmvCode = 2) rbdft",
+        "table": "FVS_Summary2",
+        "dtype": "Float32",
+        "description": "Removed merchantable board foot volume (bf)"
+    },
+    "forest_type": {
+        "query": "FVS_Summary2.Fortyp AS forest_type",
+        "table": "FVS_Summary2",
+        "dtype": "Int16",
+        "description": "Forest cover type"
+    },
+
+
+    "cc": {
+        "query": "cast(FVS_Compute.CC AS int) AS cc",
+        "table": "FVS_Compute",
+        "dtype": "Int16",
+        "description": "Canopy Cover (%); automatically computed by kcp"
+    },
+    "cbd": {
+        "query": "cast(FVS_Compute.CBD*100+0.5 AS int) AS cbd",
+        "table": "FVS_Compute",
+        "dtype": "Int16",
+        "description": "LANDFIRE-style Canopy Bulk Density (kg/m^3 * 100); automatically computed by kcp"
+    },
+    "cbh": {
+        "query": "cast(FVS_Compute.CBH*10/3.28+0.5 AS int) AS cbh",
+        "table": "FVS_Compute",
+        "dtype": "Int16",
+        "description": "LANDFIRE-style Canopy Base Height (m*10); automatically computed by kcp"
+    },
+    "th": {
+        "query": "cast(FVS_Compute.CHT*10/3.28+0.5 AS int) AS th",
+        "table": "FVS_Compute",
+        "dtype": "Int16",
+        "description": "LANDFIRE-style Tree Height (m*10); automatically computed by kcp"
+    },
+    "cht": {
+        "query": "FVS_Compute.CHT AS cht",
+        "table": "FVS_Compute",
+        "dtype": "Float32",
+        "description": "Tree Height (ft); automatically computed by kcp"
+    },
+    "fbfm": {
+        "query": "cast(FVS_Compute.FML AS int) AS fbfm",
+        "table": "FVS_Compute",
+        "dtype": "Int16",
+        "description": "40 Scott and Burgan Fire Behavior Fuel Model; automatically computed by kcp"
+    },
+    "large_tree_biomass": {
+        "query": "cast(FVS_Compute.STABLEBM*10 AS int) AS large_tree_biomass",
+        "table": "FVS_Compute",
+        "dtype": "Int16",
+        "description": "stem + crown biomass in standing live trees, all spp, >=20in all hts (BDT/ac); only available if included by kcp"
+    },
+    "salvage_vol": {
+        "query": "FVS_Compute.Salv_Vol as salvage_vol",
+        "table": "FVS_Compute",
+        "dtype": "Float32",
+        "description": "only available if included by kcp"
+    },
+    "SZ": {
+        "query": "FVS_Compute.SZ as SZ",
+        "table": "FVS_Compute",
+        "dtype": "Int16",
+        "description": "CWHR size; only available if included by kcp"
+    },
+    "DN": {
+        "query": "FVS_Compute.DN as DN",
+        "table": "FVS_Compute",
+        "dtype": "Int16",
+        "description": "CWHR density class; only available if included by kcp"
+    },
+
+
+    "surface_litter": {
+        "query": "FVS_Fuels.Surface_Litter AS surface_litter",
+        "table": "FVS_Fuels",
+        "dtype": "Float32",
+        "description": "Ground Litter (tons/ac)"
+    },
+    "surface_duff": {
+        "query": "FVS_Fuels.Surface_Duff AS surface_duff",
+        "table": "FVS_Fuels",
+        "dtype": "Float32",
+        "description": "Surface Duff (tons/ac)"
+    },
+    "surface_herb": {
+        "query": "FVS_Fuels.Surface_Herb AS surface_herb",
+        "table": "FVS_Fuels",
+        "dtype": "Float32",
+        "description": "Live herbs (tons/ac)"
+    },
+    "surface_shrub": {
+        "query": "FVS_Fuels.Surface_Shrub AS surface_shrub",
+        "table": "FVS_Fuels",
+        "dtype": "Float32",
+        "description": "Live Shrubs (tons/ac)"
+    },
+    "surface_total": {
+        "query": "FVS_Fuels.Surface_Total as surface_total",
+        "table": "FVS_Fuels",
+        "dtype": "Float32",
+        "description": "Sum of all surface fuels (both dead and live) (tons/ac)"
+    },
+    "standing_total": {
+        "query": "FVS_Fuels.Standing_Total as standing_total",
+        "table": "FVS_Fuels",
+        "dtype": "Float32",
+        "description": "Total standing wood (dead and live) (tons/ac)"
+    },
+    "total_biomass": {
+        "query": "FVS_Fuels.Total_Biomass as total_biomass",
+        "table": "FVS_Fuels",
+        "dtype": "Int16",
+        "description": "Total amount of all standing wood and surface fuels (tons/ac)"
+    },
+    "total_consumed": {
+        "query": "FVS_Fuels.Total_Consumed as total_consumed",
+        "table": "FVS_Fuels",
+        "dtype": "Int16",
+        "description": "Total amount of fuel (not including live trees) that was consumed in fire (tons/ac)"
+    },
+
+
+    "merch_carbon_removed": {
+        "query": "FVS_HRV_Carbon.Merch_Carbon_Removed as merch_carbon_removed",
+        "table": "FVS_HRV_Carbon",
+        "dtype": "Float32",
+        "description": "Merchantable C removed (tons/ac) [cumulative!]"
+    },
+
+
+    "bakill": {
+        "query": "FVS_Mortality.Bakill AS bakill",
+        "table": "FVS_Mortality",
+        "dtype": "Float32",
+        "description": "Basal area of killed trees (ft^2/ac)"
+    },
+    "volkill": {
+        "query": "FVS_Mortality.Volkill AS volkill",
+        "table": "FVS_Mortality",
+        "dtype": "Float32",
+        "description": "Volume of killed trees (cf/ac)"
+    },
+
+
+    "surf_flame_sev": {
+        "query": "FVS_PotFire.Surf_Flame_Sev AS surf_flame_sev",
+        "table": "FVS_PotFire",
+        "dtype": "Float32",
+        "description": "Surface Flame Length, severe fire (ft)"
+    },
+    "surf_flame_mod": {
+        "query": "FVS_PotFire.Surf_Flame_Mod AS surf_flame_mod",
+        "table": "FVS_PotFire",
+        "dtype": "Float32",
+        "description": "Surface Flame Length, moderate fire (ft)"
+    },
+    "tot_flame_sev": {
+        "query": "FVS_PotFire.Tot_Flame_Sev AS tot_flame_sev",
+        "table": "FVS_PotFire",
+        "dtype": "Float32",
+        "description": "Total Flame Length, severe fire (ft)"
+    },
+    "tot_flame_mod": {
+        "query": "FVS_PotFire.Tot_Flame_Mod AS tot_flame_mod",
+        "table": "FVS_PotFire",
+        "dtype": "Float32",
+        "description": "Total Flame Length, moderate fire (ft)"
+    },
+    "ptorch_sev": {
+        "query": "FVS_PotFire.PTorch_Sev AS ptorch_sev",
+        "table": "FVS_PotFire",
+        "dtype": "Float32",
+        "description": "Probability of torching, severe fire (Probability 0-1)"
+    },
+    "ptorch_mod": {
+        "query": "FVS_PotFire.PTorch_Mod AS ptorch_mod",
+        "table": "FVS_PotFire",
+        "dtype": "Float32",
+        "description": "Probability of torching, moderate fire (Probability 0-1)"
+    },
+    "mortality_ba_sev": {
+        "query": "FVS_PotFire.Mortality_BA_Sev AS mortality_ba_sev",
+        "table": "FVS_PotFire",
+        "dtype": "Float32",
+        "description": "Percent of the basal area that would be killed in severe fire conditions (%)"
+    },
+    "mortality_ba_mod": {
+        "query": "FVS_PotFire.Mortality_BA_Mod AS mortality_ba_mod",
+        "table": "FVS_PotFire",
+        "dtype": "Float32",
+        "description": "Percent of the basal area that would be killed in moderate fire conditions (%)"
+    },
+    "pot_smoke_sev": {
+        "query": "FVS_PotFire.Pot_Smoke_Sev AS pot_smoke_sev",
+        "table": "FVS_PotFire",
+        "dtype": "Float32",
+        "description": "Potential amount of smoke in severe fire conditions (tons/ac)"
+    },
+    "pot_smoke_mod": {
+        "query": "FVS_PotFire.Pot_Smoke_Mod AS pot_smoke_mod",
+        "table": "FVS_PotFire",
+        "dtype": "Float32",
+        "description": "Potential amount of smoke in moderate fire conditions (tons/ac)"
+    },
+
+
+    "hard_snags_total": {
+        "query": "FVS_SnagSum.Hard_snags_total AS hard_snags_total",
+        "table": "FVS_SnagSum",
+        "dtype": "Float32",
+        "description": "Hard snags total (>0 in.; trees/ac)"
+    },
+    "soft_snags_total": {
+        "query": "FVS_SnagSum.Soft_snags_total AS soft_snags_total",
+        "table": "FVS_SnagSum",
+        "dtype": "Float32",
+        "description": "Soft snags total (>0 in.; trees/ac)"
+    },
+
+
+     "FWD1": {
+        "query": "FVS_Compute.FWD1 AS FWD1",
+        "table": "FVS_Compute",
+        "dtype": "Float32",
+        "description": "1-hr fuel load from default FVS initialization (tons biomass/ac)"
+    },
+    "FWD10": {
+        "query": "FVS_Compute.FWD10 AS FWD10",
+        "table": "FVS_Compute",
+        "dtype": "Float32",
+        "description": "10-hr fuel load from default FVS initialization (tons biomass/ac)"
+    },
+    "FWD100": {
+        "query": "FVS_Compute.FWD100 AS FWD100",
+        "table": "FVS_Compute",
+        "dtype": "Float32",
+        "description": "100-hr fuel load from default FVS initialization (tons biomass/ac)"
+    },
+    "FWD3_6": {
+        "query": "FVS_Compute.FWD3_6 AS FWD3_6",
+        "table": "FVS_Compute",
+        "dtype": "Float32",
+        "description": "3-6 in. fuel load from default FVS initialization (tons biomass/ac)"
+    },
+    "FWD6_12": {
+        "query": "FVS_Compute.FWD6_12 AS FWD6_12",
+        "table": "FVS_Compute",
+        "dtype": "Float32",
+        "description": "6-12 in. fuel load from default FVS initialization (tons biomass/ac)"
+    },
+    "FWD12_20": {
+        "query": "FVS_Compute.FWD12_20 AS FWD12_20",
+        "table": "FVS_Compute",
+        "dtype": "Float32",
+        "description": "12-20 in. fuel load from default FVS initialization (tons biomass/ac)"
+    },
+    "FWD20_35": {
+        "query": "FVS_Compute.FWD20_35 AS FWD20_35",
+        "table": "FVS_Compute",
+        "dtype": "Float32",
+        "description": "20-35 in. fuel load from default FVS initialization (tons biomass/ac)"
+    },
+    "FWD35_50": {
+        "query": "FVS_Compute.FWD35_50 AS FWD35_50",
+        "table": "FVS_Compute",
+        "dtype": "Float32",
+        "description": "35-50 in. fuel load from default FVS initialization (tons biomass/ac)"
+    },
+    "FWD_GE50": {
+        "query": "FVS_Compute.FWD_GE50 AS FWD_GE50",
+        "table": "FVS_Compute",
+        "dtype": "Float32",
+        "description": ">=50 in. fuel load from default FVS initialization (tons biomass/ac)"
+    },
+    "LITTER": {
+        "query": "FVS_Compute.LITTER AS LITTER",
+        "table": "FVS_Compute",
+        "dtype": "Float32",
+        "description": "litter fuel load from default FVS initialization (tons biomass/ac)"
+    },
+    "DUFF": {
+        "query": "FVS_Compute.DUFF AS DUFF",
+        "table": "FVS_Compute",
+        "dtype": "Float32",
+        "description": "duff fuel load from default FVS initialization (tons biomass/ac)"
+    },
+
+
+    "FUEL_0_25_H": {
+        "query": "fuel_loads.FUEL_0_25_H AS FUEL_0_25_H",
+        "table": "fuel_loads",
+        "dtype": "Float32",
+        "description": "1-hr hard fuel load from 2023 LF FCCS (tons biomass/ac)"
+    },
+    "FUEL_25_1_H": {
+        "query": "fuel_loads.FUEL_25_1_H AS FUEL_25_1_H",
+        "table": "fuel_loads",
+        "dtype": "Float32",
+        "description": "10-hr hard fuel load from 2023 LF FCCS (tons biomass/ac)"
+    },
+    "FUEL_1_3_H": {
+        "query": "fuel_loads.FUEL_1_3_H AS FUEL_1_3_H",
+        "table": "fuel_loads",
+        "dtype": "Float32",
+        "description": "100-hr hard fuel load from 2023 LF FCCS (tons biomass/ac)"
+    },
+    "FUEL_3_6_H": {
+        "query": "fuel_loads.FUEL_3_6_H AS FUEL_3_6_H",
+        "table": "fuel_loads",
+        "dtype": "Float32",
+        "description": "3-6 in. hard fuel load from 2023 LF FCCS (tons biomass/ac)"
+    },
+    "FUEL_6_12_H": {
+        "query": "fuel_loads.FUEL_6_12_H AS FUEL_6_12_H",
+        "table": "fuel_loads",
+        "dtype": "Float32",
+        "description": "6-12 in. hard fuel load from 2023 LF FCCS (tons biomass/ac)"
+    },
+    "FUEL_12_20_H": {
+        "query": "fuel_loads.FUEL_12_20_H AS FUEL_12_20_H",
+        "table": "fuel_loads",
+        "dtype": "Float32",
+        "description": "12-20 in. hard fuel load from 2023 LF FCCS (tons biomass/ac)"
+    },
+    "FUEL_20_35_H": {
+        "query": "fuel_loads.FUEL_20_35_H AS FUEL_20_35_H",
+        "table": "fuel_loads",
+        "dtype": "Float32",
+        "description": "20-35 in. hard fuel load from 2023 LF FCCS (tons biomass/ac)"
+    },
+    "FUEL_35_50_H": {
+        "query": "fuel_loads.FUEL_35_50_H AS FUEL_35_50_H",
+        "table": "fuel_loads",
+        "dtype": "Float32",
+        "description": "35-50 in. hard fuel load from 2023 LF FCCS (tons biomass/ac)"
+    },
+    "FUEL_GT_50_H": {
+        "query": "fuel_loads.FUEL_GT_50_H AS FUEL_GT_50_H",
+        "table": "fuel_loads",
+        "dtype": "Float32",
+        "description": ">50 in. hard fuel load from 2023 LF FCCS (tons biomass/ac)"
+    },
+    "FUEL_3_6_S": {
+        "query": "fuel_loads.FUEL_3_6_S AS FUEL_3_6_S",
+        "table": "fuel_loads",
+        "dtype": "Float32",
+        "description": "3-6 in. soft fuel load from 2023 LF FCCS (tons biomass/ac)"
+    },
+    "FUEL_6_12_S": {
+        "query": "fuel_loads.FUEL_6_12_S AS FUEL_6_12_S",
+        "table": "fuel_loads",
+        "dtype": "Float32",
+        "description": "6-12 in. soft fuel load from 2023 LF FCCS (tons biomass/ac)"
+    },
+    "FUEL_12_20_S": {
+        "query": "fuel_loads.FUEL_12_20_S AS FUEL_12_20_S",
+        "table": "fuel_loads",
+        "dtype": "Float32",
+        "description": "12-20 in. soft fuel load from 2023 LF FCCS (tons biomass/ac)"
+    },
+    "FUEL_20_35_S": {
+        "query": "fuel_loads.FUEL_20_35_S AS FUEL_20_35_S",
+        "table": "fuel_loads",
+        "dtype": "Float32",
+        "description": "20-35 in. soft fuel load from 2023 LF FCCS (tons biomass/ac)"
+    },
+    "FUEL_35_50_S": {
+        "query": "fuel_loads.FUEL_35_50_S AS FUEL_35_50_S",
+        "table": "fuel_loads",
+        "dtype": "Float32",
+        "description": "35-50 in. soft fuel load from 2023 LF FCCS (tons biomass/ac)"
+    },
+    "FUEL_GT_50_S": {
+        "query": "fuel_loads.FUEL_GT_50_S AS FUEL_GT_50_S",
+        "table": "fuel_loads",
+        "dtype": "Float32",
+        "description": ">50 in. soft fuel load from 2023 LF FCCS (tons biomass/ac)"
+    },
+    "FUEL_LITTER": {
+        "query": "fuel_loads.FUEL_LITTER AS FUEL_LITTER",
+        "table": "fuel_loads",
+        "dtype": "Float32",
+        "description": "litter fuel load from 2023 LF FCCS (tons biomass/ac)"
+    },
+    "FUEL_DUFF": {
+        "query": "fuel_loads.FUEL_DUFF AS FUEL_DUFF",
+        "table": "fuel_loads",
+        "dtype": "Float32",
+        "description": "duff fuel load from 2023 LF FCCS (tons biomass/ac)"
+    },
+
+
+    "FWD_SM_CARBON": {
+        "query": "fuel_loads.FWD_SM_CARBON AS FWD_SM_CARBON",
+        "table": "fuel_loads",
+        "dtype": "Float32",
+        "description": "1-hr fuel load from FuelMap 2022 (converted to tons biomass/ac)"
+    },
+    "FWD_MD_CARBON": {
+        "query": "fuel_loads.FWD_MD_CARBON AS FWD_MD_CARBON",
+        "table": "fuel_loads",
+        "dtype": "Float32",
+        "description": "10-hr fuel load from FuelMap 2022 (converted to tons biomass/ac)"
+    },
+    "FWD_LG_CARBON": {
+        "query": "fuel_loads.FWD_LG_CARBON AS FWD_LG_CARBON",
+        "table": "fuel_loads",
+        "dtype": "Float32",
+        "description": "100-hr fuel load from FuelMap 2022 (converted to tons biomass/ac)"
+    },
+    "CWD_CARBON": {
+        "query": "fuel_loads.CWD_CARBON AS CWD_CARBON",
+        "table": "fuel_loads",
+        "dtype": "Float32",
+        "description": "1000-hr fuel load from FuelMap 2022 (converted tons biomass/ac)"
+    },
+    "DUFF_CARBON": {
+        "query": "fuel_loads.DUFF_CARBON AS DUFF_CARBON",
+        "table": "fuel_loads",
+        "dtype": "Float32",
+        "description": "duff fuel load from FuelMap 2022 (converted to tons biomass/ac)"
+    },
+    "LITTER_CARBON": {
+        "query": "fuel_loads.LITTER_CARBON AS LITTER_CARBON",
+        "table": "fuel_loads",
+        "dtype": "Float32",
+        "description": "litter fuel load from FuelMap 2022 (converted to tons biomass/ac)"
+    },
+
+    "PM10F": {
+        "query": "PM10F AS PM10F",
+        "table": "fofem",
+        "dtype": "Int16",
+        "description": "Variable from CSV: PM10F"
+    },
+    "PM10S": {
+        "query": "PM10S AS PM10S",
+        "table": "fofem",
+        "dtype": "Int16",
+        "description": "Variable from CSV: PM10S"
+    },
+    "PM25F": {
+        "query": "PM25F AS PM25F",
+        "table": "fofem",
+        "dtype": "Int16",
+        "description": "Variable from CSV: PM25F"
+    },
+    "PM25S": {
+        "query": "PM25S AS PM25S",
+        "table": "fofem",
+        "dtype": "Int16",
+        "description": "Variable from CSV: PM25S"
+    },
+    "CH4F": {
+        "query": "CH4F AS CH4F",
+        "table": "fofem",
+        "dtype": "Int16",
+        "description": "Variable from CSV: CH4F"
+    },
+    "CH4S": {
+        "query": "CH4S AS CH4S",
+        "table": "fofem",
+        "dtype": "Int16",
+        "description": "Variable from CSV: CH4S"
+    },
+    "COF": {
+        "query": "COF AS COF",
+        "table": "fofem",
+        "dtype": "Int16",
+        "description": "Variable from CSV: COF"
+    },
+    "COS": {
+        "query": "COS AS COS",
+        "table": "fofem",
+        "dtype": "Int16",
+        "description": "Variable from CSV: COS"
+    },
+    "CO2F": {
+        "query": "CO2F AS CO2F",
+        "table": "fofem",
+        "dtype": "Int16",
+        "description": "Variable from CSV: CO2F"
+    },
+    "CO2S": {
+        "query": "CO2S AS CO2S",
+        "table": "fofem",
+        "dtype": "Int16",
+        "description": "Variable from CSV: CO2S"
+    },
+    "NOXF": {
+        "query": "NOXF AS NOXF",
+        "table": "fofem",
+        "dtype": "Int16",
+        "description": "Variable from CSV: NOXF"
+    },
+    "NOXS": {
+        "query": "NOXS AS NOXS",
+        "table": "fofem",
+        "dtype": "Int16",
+        "description": "Variable from CSV: NOXS"
+    },
+    "SO2F": {
+        "query": "SO2F AS SO2F",
+        "table": "fofem",
+        "dtype": "Int16",
+        "description": "Variable from CSV: SO2F"
+    },
+    "SO2S": {
+        "query": "SO2S AS SO2S",
+        "table": "fofem",
+        "dtype": "Int16",
+        "description": "Variable from CSV: SO2S"
+    }
+}

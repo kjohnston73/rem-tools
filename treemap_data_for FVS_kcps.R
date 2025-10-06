@@ -35,11 +35,13 @@ library(dplyr) # for data manipulation
 ################################################################################
 # Read in files used in this script
 # project shapefile
-aoi <- vect("Projects/BandedPeak/fcat_shp/BandedPeaks_UTM13N.shp")
+aoi <- vect("Projects/SaveTheRedwoods/FA023_GMC/FA023_GMC_10N_final.shp")
 # TreeMap2016 raster
 treemap <- rast("TreeMap2016/Data/TreeMap2016.tif")
+comp_rast <- rast("Projects/TM_dist_tx_wf_NC510.tif")
 # TreeMap2016 RAT
 treemap_rat <- read.dbf("TreeMap2016/Data/TreeMap2016.tif.vat.dbf")
+comp_rast <- rast("Projects/TM_dist_tx_wf_NC510.tif")
 # Master tree list for all of TreeMap2016
 all_trees = read.csv(file = "TreeMap2016/Data/TreeMap2016_tree_table.csv", colClasses = c("character", "character"))
 # western variants spcd xwalk csv 
@@ -54,10 +56,22 @@ spcd_xwalk = read.csv(file = "rem-tools/spcd_xwalk.csv")
 # treemap projection
 # crs(treemap)
 aoi <- project(aoi, treemap) 
+comp_aoi <- project(aoi, comp_rast) 
 
 ################################################################################
 # Trim TreeMap raster down to just the project AOI
 treemap_AOI <- crop(treemap, aoi, mask=TRUE) # crop & mask TreeMap to the AOI
+comp_aoiv2 <- crop(comp_rast, comp_aoi, mask=TRUE) # crop & mask comp_rast to the AOI
+
+################################################################################
+# Get raster stand ID values
+library(tidyr)
+crsfvs_standIDs <- values(comp_aoiv2) # retrieves raster pixel values as vector
+fvs_standIDs <- as.list(fvs_standIDs[!is.na(fvs_standIDs)]) # removes NA - the areas masked out
+unq_fvs_standIDs <- unique(fvs_standIDs) # returns only unique project stand values
+unq_fvs_standIDsv2 <- as.data.frame(unique(fvs_standIDs))
+unq_fvs_stands <- pivot_longer(unq_fvs_standIDsv2, cols = everything(), values_to = "raster_standID")
+write.csv(unq_fvs_stands, "Projects/comp_raster_fvs_standIDs.csv", row.names = FALSE)
 
 ################################################################################
 # Get list of stands within project area
